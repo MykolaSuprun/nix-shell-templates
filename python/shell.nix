@@ -15,12 +15,14 @@ mkShell rec {
       python
       pip
       virtualenv
+      jupyter
+      ipython
+      ipykernel
     ];
 
   shellHook = /* sh */ ''
     virtualenv --no-setuptools .venv
     source ./.venv/bin/activate
-    unset PYTHONPATH
-    pip install wheel numpy pandas
-  '';
+    #unset PYTHONPATH
+    pip install wheel numpy pandas ipykernel ipysheet blue '';
 }
