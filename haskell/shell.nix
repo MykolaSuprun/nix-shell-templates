@@ -1,9 +1,16 @@
-{ pkgs ? import <nixpkgs> {} }:
-let myGhc = pkgs.haskellPackages.ghcWithPackages (hpkgs: with hpkgs; [
+with (import <nixpkgs> {});
+
+
+let
+  ghcWithPkgs = pkgs.haskellPackages.ghcWithPackages (hpkgs: with hpkgs; [
       turtle
       regex-tdfa
-    ]);
-in
-pkgs.mkShell {
-  buildInputs = [ myGhc ];
+  ]);
+in 
+mkShell {
+  name = "haskell-shell";
+  buildInputs = [ ghcWithPkgs ]; 
+  shellHook = ''
+    zsh
+  '';
 }
