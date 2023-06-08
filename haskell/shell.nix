@@ -9,7 +9,11 @@ let
 in 
 mkShell {
   name = "haskell-shell";
-  buildInputs = [ ghcWithPkgs ]; 
+  buildInputs = [ 
+    ghcWithPkgs
+    haskell-langage-server
+  ]; 
+
   shellHook = ''
     zsh
   '';
