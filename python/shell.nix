@@ -1,28 +1,23 @@
-{ stdenv ? import <nixpkgs> {} }:
-
+{ pkgs ? import <nixpkgs> {} }:
 let
-
-  inherit (stdenv) pkgs mkShell;
-  inherit (stdenv.lib) flatten;
-
+  pipPkgs = pkgs.lib.strings.concatStringsSep " " [
+    "argparse"
+    "blue"
+    "wheel"
+    "numpy"
+  ];
 in
-
-mkShell rec {
+pkgs.mkShell {
   name = "venv";
-  buildInputs =
-    with pkgs;
-    with python310Packages; [
-      python
-      pip
-      virtualenv
-      jupyter
-      ipython
-      ipykernel
-    ];
-
-  shellHook = /* sh */ ''
+  buildInputs = with pkgs.python311Packages; [
+    python
+    pip
+    virtualenv
+  ];
+  shellHooks =  ''
     virtualenv --no-setuptools .venv
     source ./.venv/bin/activate
-    #unset PYTHONPATH
-    pip install wheel numpy pandas ipykernel ipysheet blue '';
+    pip install ${pipPkgs}
+    zsh
+  '';
 }
